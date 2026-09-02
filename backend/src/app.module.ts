@@ -21,7 +21,7 @@ import { PatientsModule } from './patients/patients.module';
       useFactory: (configService: ConfigService) => {
         const uri = configService.get<string>('MONGODB_URI');
 
-        console.log('MongoDB URI:', uri);
+
 
         return {
           uri,
