@@ -1,28 +1,29 @@
 {
-    "services": {
-        "frontend": {
-            "root": "frontend",
-            "framework": "nextjs"
-        },
-        "backend": {
-            "root": "backend",
-            "entrypoint": "src/main.ts"
-        }
+  "services": {
+    "frontend": {
+      "root": "frontend",
+      "framework": "nextjs"
     },
-    "rewrites": [
-        {
-            "source": "/api/backend(/.*)?",
-            "destination": {
-                "type": "service",
-                "service": "backend"
-            }
-        },
-        {
-            "source": "/(.*)",
-            "destination": {
-                "type": "service",
-                "service": "frontend"
-            }
-        }
-    ]
+    "backend": {
+      "root": "backend",
+      "runtime": "container",
+      "entrypoint": "Dockerfile.vercel"
+    }
+  },
+  "rewrites": [
+    {
+      "source": "/api/backend(/.*)?",
+      "destination": {
+        "type": "service",
+        "service": "backend"
+      }
+    },
+    {
+      "source": "/(.*)",
+      "destination": {
+        "type": "service",
+        "service": "frontend"
+      }
+    }
+  ]
 }
