@@ -1,735 +1,613 @@
-🏥 Skitii Health
+# 🏥 **Skitii Health** ❤️
 
-BLE Patient Monitoring Platform
+### **BLE Patient Monitoring Platform**
 
-A full-stack healthcare monitoring application built for real-time patient heart-rate monitoring through Bluetooth Low Energy (BLE).
+A full-stack healthcare monitoring platform that enables healthcare staff to manage patients, connect to a **Bluetooth Low Energy (BLE) heart-rate device**, monitor real-time physiological data, and review completed monitoring sessions.
 
-Skitii Health enables healthcare staff to authenticate securely, manage patients, connect to a BLE heart-rate device directly from the browser, monitor real BPM readings in real time, conduct monitoring sessions, and review previously recorded sessions.
+Built with **Next.js, React, TypeScript, NestJS, MongoDB, JWT authentication, and Web Bluetooth API**.
 
-✨ Highlights
+---
 
-🔐 JWT-based staff authentication
+## 🚀 **Features**
 
-👥 Complete patient management
+### 🔐 Secure Authentication
+- Staff registration and login
+- JWT-based authentication
+- Protected frontend routes
+- Protected backend APIs
+- Password hashing with bcrypt
+- Logout and validation/error handling
 
-🔵 Browser-based BLE device scanning and connection
+### 👥 Patient Management
+- Add patients
+- View patient details
+- Search patients
+- Edit patient information
+- Deactivate patients
+- Persistent MongoDB storage
 
-❤️ Real-time heart-rate monitoring using actual BLE data
+### 🔵 BLE Heart Rate Monitoring
+- Scan for nearby BLE devices
+- Select and connect to a BLE device
+- Discover BLE services and characteristics
+- Subscribe to heart-rate notifications
+- Parse real BLE heart-rate packets
+- Display live BPM readings
+- Track BLE connection status
+- Detect device disconnection
+- Preserve readings collected before disconnection
 
-⏱️ Start, pause, resume, and end monitoring sessions
+### ❤️ Monitoring Sessions
+- Select a patient
+- Start a monitoring session
+- Pause and resume a session
+- Live session timer
+- Record heart-rate readings
+- Calculate average, minimum, and maximum HR
+- Record RR intervals when available
+- Calculate RMSSD when RR interval data is available
+- End and save sessions
 
-📊 Session summaries and historical records
+### 📊 Session History
+- View completed sessions
+- View session duration
+- View average heart rate
+- View minimum and maximum heart rate
+- View number of readings
+- View BLE device identifier
+- View session status
+- Open detailed session information
 
-📈 Average, minimum, and maximum heart rate
+---
 
-🧮 RMSSD calculation when RR interval data is available
+## 🛠️ **Tech Stack**
 
-🔌 BLE disconnect detection with preservation of collected readings
+| Category | Technology |
+|---|---|
+| Frontend | Next.js 16, React, TypeScript |
+| Styling | Tailwind CSS |
+| BLE | Web Bluetooth API |
+| Backend | NestJS |
+| Database | MongoDB |
+| Database ODM | Mongoose |
+| Authentication | JWT |
+| Password Security | bcrypt |
+| API | REST |
 
-🗄️ MongoDB persistence through a NestJS backend
+---
 
-🛡️ Protected frontend routes and backend APIs
+## 🏗️ **Architecture**
 
-✅ Production builds verified successfully
+```text
+                    ┌─────────────────────┐
+                    │   Healthcare Staff  │
+                    └──────────┬──────────┘
+                               │
+                               ▼
+                    ┌─────────────────────┐
+                    │  Next.js Frontend   │
+                    │                     │
+                    │ Login / Patients    │
+                    │ BLE / Sessions      │
+                    └──────────┬──────────┘
+                               │
+                       REST API + JWT
+                               │
+                               ▼
+                    ┌─────────────────────┐
+                    │   NestJS Backend    │
+                    │                     │
+                    │ Auth / Patients     │
+                    │ Sessions            │
+                    └──────────┬──────────┘
+                               │
+                            Mongoose
+                               │
+                               ▼
+                    ┌─────────────────────┐
+                    │       MongoDB       │
+                    │                     │
+                    │ Users / Patients    │
+                    │ Monitoring Sessions │
+                    └─────────────────────┘
 
-🖥️ Application Overview
+          BLE Heart Rate Device
+                    │
+              Web Bluetooth API
+                    │
+                    ▼
+              Next.js Browser
+```
 
-                         SKITII HEALTH
-                    BLE Patient Monitoring
-                              │
-              ┌───────────────┴───────────────┐
-              │                               │
-        Healthcare Staff               BLE Heart Rate Device
-              │                               │
-              ▼                               │
-      ┌─────────────────┐                     │
-      │  Next.js Web App│◄──── Web Bluetooth ──┘
-      └────────┬────────┘
-               │
-          REST API + JWT
-               │
-               ▼
-      ┌─────────────────┐
-      │  NestJS Backend │
-      └────────┬────────┘
-               │
-            Mongoose
-               │
-               ▼
-      ┌─────────────────┐
-      │     MongoDB     │
-      └─────────────────┘
+---
 
-Core Workflow
+## 🔵 **How BLE Monitoring Works**
 
-Staff Login
-    ↓
-Select Patient
-    ↓
-Scan for BLE Device
-    ↓
-Connect to Heart Rate Monitor
-    ↓
-Discover Heart Rate Service
-    ↓
-Subscribe to Heart Rate Measurements
-    ↓
-Receive Real BPM Data
-    ↓
-Start Monitoring Session
-    ↓
-Record Readings
-    ↓
-End Session
-    ↓
-Persist Session in MongoDB
-    ↓
-Review Session History
+The application communicates with the BLE heart-rate device directly through the browser.
 
-🚀 Features
+```text
+Scan Device
+     ↓
+Select Device
+     ↓
+Connect
+     ↓
+Discover Services
+     ↓
+Find Heart Rate Characteristic
+     ↓
+Subscribe to Notifications
+     ↓
+Receive BLE Packets
+     ↓
+Parse Heart Rate
+     ↓
+Display Live BPM
+     ↓
+Store Session Readings
+```
 
-🔐 Authentication
+The application uses the standard Bluetooth Heart Rate Service:
 
-The application provides a secure staff authentication flow.
-
-Staff registration
-
-Email/password login
-
-Password hashing with bcrypt
-
-JWT access-token authentication
-
-Protected frontend routes
-
-Protected backend API endpoints
-
-Logout
-
-Login validation and useful error messages
-
-Authentication flow:
-
-Credentials
-    ↓
-POST /auth/login
-    ↓
-Credential Validation
-    ↓
-JWT Access Token
-    ↓
-Frontend Stores Token
-    ↓
-Bearer Token on Protected Requests
-    ↓
-NestJS JWT Guard
-    ↓
-Authorized Resource
-
-👥 Patient Management
-
-Healthcare staff can manage patient records from the application.
-
-Supported operations:
-
-Add patient
-
-View patient details
-
-Search patients
-
-Edit patient information
-
-Deactivate patient
-
-Retrieve patient records from MongoDB
-
-Patient data is stored persistently in MongoDB.
-
-🔵 BLE Monitoring
-
-The application uses the browser's Web Bluetooth API to communicate directly with compatible BLE heart-rate devices.
-
-The BLE workflow includes:
-
-Scan for nearby BLE devices
-
-Select a device
-
-Connect to the device
-
-Discover available services
-
-Discover characteristics
-
-Subscribe to notifications
-
-Parse incoming heart-rate packets
-
-Display live BPM values
-
-Store readings during the session
-
-The implementation uses the standard Bluetooth Heart Rate Service.
-
+```text
 Heart Rate Service
 0000180d-0000-1000-8000-00805f9b34fb
 
 Heart Rate Measurement
 00002a37-0000-1000-8000-00805f9b34fb
+```
+
+The application receives **actual measurements from the BLE device** and does not generate random or simulated heart-rate values.
 
-The application receives actual BLE heart-rate measurements and does not generate random or simulated BPM values.
+---
 
-❤️ Live Monitoring Sessions
+## ❤️ **Live Monitoring**
 
-A monitoring session allows staff to observe physiological readings in real time.
+During an active session, the healthcare staff can monitor:
 
-During a session the application provides:
+```text
+┌─────────────────────────────────┐
+│         LIVE MONITORING         │
+├─────────────────────────────────┤
+│                                 │
+│       Heart Rate: 84 BPM        │
+│                                 │
+│       Session: 01:33            │
+│       Readings: 35              │
+│                                 │
+│       ● BLE Connected           │
+│                                 │
+│       [ Pause ]   [ End ]       │
+│                                 │
+└─────────────────────────────────┘
+```
 
-Current heart rate
+Session summaries include:
 
-Session timer
+- Average heart rate
+- Minimum heart rate
+- Maximum heart rate
+- Total readings
+- Duration
+- RMSSD when RR intervals are available
 
-Number of readings
+---
 
-Start
+## 👥 **Patient Management**
 
-Pause
+The patient management module allows staff to maintain patient records before starting monitoring sessions.
 
-Resume
+```text
+Add Patient
+    ↓
+Store in MongoDB
+    ↓
+Search / View / Edit
+    ↓
+Select Patient
+    ↓
+Start Monitoring Session
+```
 
-End
+Patients can also be deactivated while preserving their historical session information.
 
-BLE connection state
+---
 
-RR intervals when supplied by the device
+## 📊 **Session History**
 
-RMSSD when sufficient RR interval data is available
+Every completed monitoring session can be reviewed later.
 
-Session summary calculations include:
+Stored session information includes:
 
-Average Heart Rate
-Minimum Heart Rate
-Maximum Heart Rate
-RMSSD / HRV when available
+- Patient ID
+- Start time
+- End time
+- Duration
+- Heart-rate readings
+- RR intervals when available
+- Average heart rate
+- Minimum heart rate
+- Maximum heart rate
+- RMSSD when available
+- BLE device identifier
+- Session status
 
-📊 Session History
+---
 
-Completed sessions can be reviewed from the Session History page.
+## 🔌 **BLE Disconnect Handling**
 
-Stored information includes:
+The application detects when the BLE connection is interrupted.
 
-Patient ID
+Previously received readings are preserved so that measurements collected before the disconnect are not unnecessarily lost.
 
-Start time
+```text
+Connected
+    ↓
+BLE Disconnect
+    ↓
+Connection State Updated
+    ↓
+Existing Readings Preserved
+    ↓
+Session Data Remains Available
+```
 
-End time
+---
 
-Duration
+## ⌚ **Tested BLE Device**
 
-Heart-rate readings
+The application has been tested with:
 
-RR intervals when available
+### **Fire-Boltt BSW004**
 
-Average heart rate
+The tested device exposes:
 
-Minimum heart rate
+```text
+Heart Rate Service (180D)
+        ↓
+Heart Rate Measurement (2A37)
+        ↓
+Notifications
+        ↓
+Real BPM Readings
+```
 
-Maximum heart rate
+### Important Device Behavior
 
-RMSSD when available
+The BSW004 requires heart-rate measurement to be **started manually from the watch** before continuous measurements are transmitted.
 
-BLE device identifier
+Once measurement is active, the application receives the actual BPM values through BLE notifications.
 
-Session status
+---
 
-Each session also has a dedicated details view.
+## 🧮 **Heart Rate & HRV**
 
-🔌 BLE Disconnect Handling
+Heart rate is received directly from the standard BLE Heart Rate Measurement characteristic.
 
-The application detects BLE disconnections during monitoring.
+When RR interval information is included in the BLE packets:
 
-When a device disconnects:
+```text
+RR Intervals
+     ↓
+RMSSD Calculation
+     ↓
+HRV Result
+```
 
-The connection state is updated
+If the connected device does not provide RR interval data, HRV/RMSSD is displayed as unavailable.
 
-Previously collected readings are preserved
+---
 
-The session data remains available
+## ⚙️ **Installation**
 
-The session can be handled without discarding readings already received
+### 1. Clone the Repository
 
-This prevents measurements collected before a connection failure from being unnecessarily lost.
-
-🛠️ Technology Stack
-
-Layer
-
-Technology
-
-Frontend
-
-Next.js 16
-
-UI
-
-React + Tailwind CSS
-
-Language
-
-TypeScript
-
-BLE
-
-Web Bluetooth API
-
-Backend
-
-NestJS
-
-Database
-
-MongoDB
-
-ODM
-
-Mongoose
-
-Authentication
-
-JWT
-
-Password Security
-
-bcrypt
-
-API
-
-REST
-
-📁 Project Structure
-
-skitii-ble-health/
-│
-├── README.md
-│
-├── frontend/
-│   ├── src/
-│   │   └── app/
-│   │       ├── page.tsx
-│   │       ├── dashboard/
-│   │       ├── patients/
-│   │       └── sessions/
-│   ├── public/
-│   ├── package.json
-│   └── README.md
-│
-└── backend/
-    ├── src/
-    │   ├── auth/
-    │   ├── patients/
-    │   └── sessions/
-    ├── test/
-    ├── package.json
-    └── README.md
-
-⚙️ Prerequisites
-
-Before running the project, install:
-
-Node.js
-
-npm
-
-MongoDB
-
-A browser supporting Web Bluetooth
-
-Bluetooth hardware on the computer
-
-A compatible BLE heart-rate device
-
-Web Bluetooth requires a supported browser and available Bluetooth hardware.
-
-🔑 Environment Configuration
-
-Frontend
-
-Create:
-
-frontend/.env.local
-
-Add:
-
-NEXT_PUBLIC_API_URL=http://localhost:3001
-
-Backend
-
-Create:
-
-backend/.env
-
-Add:
-
-MONGODB_URI=mongodb://127.0.0.1:27017/skitii_health
-PORT=3001
-JWT_SECRET=your-secret-key
-
-Never commit real .env or .env.local files. The repository's .gitignore files exclude environment files from version control.
-
-📦 Installation
-
-1. Clone the repository
-
+```bash
 git clone <YOUR_GITHUB_REPOSITORY_URL>
 cd skitii-ble-health
+```
 
-2. Install frontend dependencies
+### 2. Install Frontend Dependencies
 
+```bash
 cd frontend
 npm install
+```
 
-3. Install backend dependencies
+### 3. Install Backend Dependencies
 
 Open another terminal:
 
+```bash
 cd backend
 npm install
+```
 
-▶️ Running the Application
+---
 
-Start MongoDB
+## 🔑 **Environment Variables**
 
-Make sure your local MongoDB server is running.
+### Frontend
 
-Start the Backend
+Create:
 
-From the backend directory:
+```text
+frontend/.env.local
+```
 
+Add:
+
+```env
+NEXT_PUBLIC_API_URL=http://localhost:3001
+```
+
+### Backend
+
+Create:
+
+```text
+backend/.env
+```
+
+Add:
+
+```env
+MONGODB_URI=mongodb://127.0.0.1:27017/skitii_health
+PORT=3001
+JWT_SECRET=your-secret-key
+```
+
+> ⚠️ Never commit real `.env` or `.env.local` files. Environment files are excluded using `.gitignore`.
+
+---
+
+## ▶️ **Getting Started**
+
+### Start MongoDB
+
+Make sure MongoDB is running locally.
+
+### Start Backend
+
+```bash
+cd backend
 npm run start:dev
+```
 
 Backend:
 
+```text
 http://localhost:3001
+```
 
-Start the Frontend
+### Start Frontend
 
-From the frontend directory:
-
+```bash
+cd frontend
 npm run dev
+```
 
 Frontend:
 
+```text
 http://localhost:3000
+```
 
 Open the frontend in a supported browser.
 
-🧭 Application Routes
+---
 
-Route
+## 🧭 **Application Routes**
 
-Description
+| Route | Purpose |
+|---|---|
+| `/` | Staff Login |
+| `/signup` | Staff Registration |
+| `/dashboard` | Dashboard |
+| `/patients` | Patient Management |
+| `/sessions/new` | New BLE Session |
+| `/sessions` | Session History |
+| `/sessions/[id]` | Session Details |
 
-/
+---
 
-Staff login
+## 🔗 **API Reference**
 
-/signup
+### Authentication
 
-Staff registration
+| Method | Endpoint | Purpose |
+|---|---|---|
+| `POST` | `/auth/login` | Authenticate staff |
 
-/dashboard
+### Patients
 
-Main dashboard
+| Method | Endpoint | Purpose |
+|---|---|---|
+| `GET` | `/patients` | Get patients |
+| `POST` | `/patients` | Create patient |
+| `GET` | `/patients/:id` | Get patient |
+| `PATCH` | `/patients/:id` | Update patient |
+| `DELETE` | `/patients/:id` | Deactivate/delete patient |
 
-/patients
+### Sessions
 
-Patient management
+| Method | Endpoint | Purpose |
+|---|---|---|
+| `POST` | `/sessions` | Create/save session |
+| `GET` | `/sessions` | Get sessions |
+| `GET` | `/sessions/:id` | Get session details |
 
-/sessions/new
+Protected endpoints require JWT Bearer authentication.
 
-New BLE monitoring session
+---
 
-/sessions
+## 🛡️ **Security**
 
-Session history
+- Passwords are hashed using bcrypt.
+- JWT access tokens protect authenticated resources.
+- Protected backend routes require valid Bearer tokens.
+- Protected frontend pages require authentication.
+- Environment files are excluded from Git.
+- Database and JWT secrets are kept outside the repository.
 
-/sessions/[id]
+---
 
-Session details
+## 📸 **Screenshots**
 
-🔗 API Reference
+Add screenshots of the application here before final submission.
 
-Authentication
+Recommended screenshots:
 
-Method
+### 🔐 Login
 
-Endpoint
+```text
+screenshots/login.png
+```
 
-Description
+### 👥 Patient Management
 
-POST
+```text
+screenshots/patients.png
+```
 
-/auth/login
+### 🔵 BLE Connection
 
-Authenticate staff and return JWT
+```text
+screenshots/ble-connection.png
+```
 
-Patients
+### ❤️ Live Monitoring
 
-Method
+```text
+screenshots/live-session.png
+```
 
-Endpoint
+### 📊 Session History
 
-Description
+```text
+screenshots/session-history.png
+```
 
-GET
+### 📋 Session Details
 
-/patients
+```text
+screenshots/session-details.png
+```
 
-Get patients
+---
 
-POST
-
-/patients
-
-Create patient
-
-GET
-
-/patients/:id
-
-Get patient
-
-PATCH
-
-/patients/:id
-
-Update patient
-
-DELETE
-
-/patients/:id
-
-Deactivate/delete patient
-
-Sessions
-
-Method
-
-Endpoint
-
-Description
-
-POST
-
-/sessions
-
-Create/save session
-
-GET
-
-/sessions
-
-Get sessions
-
-GET
-
-/sessions/:id
-
-Get session details
-
-Protected endpoints require a valid JWT Bearer token.
-
-⌚ Tested BLE Device
-
-The application has been tested with a Fire-Boltt BSW004.
-
-The device exposes the standard Heart Rate Service and Heart Rate Measurement characteristic used by the application.
-
-Important device behavior
-
-The tested BSW004 requires heart-rate measurement to be activated manually from the watch before continuous measurements are transmitted.
-
-The application then receives the real measurements through BLE notifications.
-
-The application does not fabricate heart-rate values.
-
-🧮 HRV / RMSSD
-
-When the BLE device provides RR interval information within its heart-rate measurement packets, the application records the intervals and can calculate RMSSD.
-
-If RR interval information is not supplied by the connected device:
-
-HRV / RMSSD = Unavailable
-
-This is why some sessions may show a blank or unavailable HRV value while heart-rate monitoring continues normally.
-
-🛡️ Security
-
-Security-related implementation includes:
-
-bcrypt password hashing
-
-JWT authentication
-
-Bearer-token authorization
-
-Protected NestJS routes
-
-Protected frontend screens
-
-Environment variables for secrets
-
-.gitignore rules for environment files and generated dependencies
-
-Real JWT secrets and database credentials are kept outside the repository.
-
-⚠️ Current Limitations
-
-BLE Device Compatibility
-
-Web Bluetooth behavior depends on the capabilities and GATT implementation of the connected device.
-
-The current implementation is designed around the standard Heart Rate Service and Heart Rate Measurement characteristic.
-
-BSW004 Measurement Activation
-
-The tested Fire-Boltt BSW004 requires heart-rate measurement to be started manually on the watch.
-
-The browser application receives the data after the watch begins transmitting it.
-
-RR / HRV Availability
-
-RR interval data depends on what the BLE device provides. If RR intervals are not included, RMSSD cannot be calculated.
-
-🧪 Verification
-
-The following application workflows have been manually verified:
-
-✅ Staff registration
-
-✅ Staff login
-
-✅ JWT authentication
-
-✅ Protected frontend routes
-
-✅ Protected backend APIs
-
-✅ Patient creation
-
-✅ Patient viewing
-
-✅ Patient search
-
-✅ Patient editing
-
-✅ Patient deactivation
-
-✅ BLE device scanning
-
-✅ BLE device connection
-
-✅ Heart Rate Service discovery
-
-✅ Heart Rate Measurement notifications
-
-✅ Real BPM readings
-
-✅ Session start
-
-✅ Session pause/resume
-
-✅ Session timer
-
-✅ Session completion
-
-✅ Session persistence
-
-✅ Session history
-
-✅ Session details
-
-✅ BLE disconnect detection
-
-✅ Preservation of collected readings
-
-✅ Frontend production build
-
-✅ Backend production build
-
-🏗️ Production Build
-
-Frontend
-
+## 🧪 **Testing & Verification**
+
+The following workflows have been manually verified:
+
+- ✅ Registration
+- ✅ Login
+- ✅ JWT authentication
+- ✅ Protected routes
+- ✅ Patient creation
+- ✅ Patient viewing
+- ✅ Patient search
+- ✅ Patient editing
+- ✅ Patient deactivation
+- ✅ BLE scanning
+- ✅ BLE connection
+- ✅ BLE service discovery
+- ✅ Heart-rate characteristic discovery
+- ✅ BLE notifications
+- ✅ Real BPM readings
+- ✅ Session start
+- ✅ Session pause/resume
+- ✅ Session timer
+- ✅ Session completion
+- ✅ Session persistence
+- ✅ Session history
+- ✅ Session details
+- ✅ BLE disconnect handling
+- ✅ Existing readings preserved
+- ✅ Frontend production build
+- ✅ Backend production build
+
+---
+
+## 📈 **Build Verification**
+
+### Frontend
+
+```bash
 cd frontend
 npm run build
+```
 
-Backend
+### Backend
 
+```bash
 cd backend
 npm run build
+```
 
-Both builds have been successfully verified during development.
+Both frontend and backend production builds have been successfully verified.
 
-🚀 Future Improvements
+---
 
-Potential improvements include:
+## ⚠️ **Known Limitations**
 
-Automatic BLE reconnection
+### BLE Device Compatibility
 
-Broader BLE device compatibility
+Web Bluetooth depends on browser support and the GATT implementation of the connected device.
 
-Offline session synchronization
+The current implementation focuses on the standard Heart Rate Service and Heart Rate Measurement characteristic.
 
-Improved local persistence
+### BSW004 Measurement Activation
 
-Pagination for large patient/session datasets
+The tested Fire-Boltt BSW004 requires heart-rate measurement to be manually started from the watch.
 
-Automated unit and integration tests
+### RR Interval Availability
 
-Swagger API documentation
+RR intervals depend on the data provided by the connected BLE device. If RR intervals are unavailable, RMSSD cannot be calculated.
 
-Docker support
+---
 
-Additional BLE device protocol support
+## 🚀 **Future Improvements**
 
-Production deployment configuration
+- Automatic BLE reconnection
+- Broader BLE device compatibility
+- Offline session synchronization
+- Improved local persistence
+- Pagination for large datasets
+- Automated unit and integration tests
+- Swagger API documentation
+- Docker support
+- Production deployment
+- Additional BLE device protocol support
 
-📸 Screenshots
+---
 
-Add application screenshots here before the final submission.
+## 🤝 **Contributing**
 
-Suggested screenshots:
+Contributions and suggestions are welcome.
 
-Login
+If you would like to improve the project:
 
-Dashboard
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Test the application
+5. Submit a pull request
 
-Patient Management
+---
 
-BLE Device Connection
+## 📄 **License**
 
-Live Heart Rate Session
+This project was developed as part of the **Skitii Full Stack Developer Internship hiring task**.
 
-Session History
+---
 
-Session Details
+## 👨‍💻 **Project**
 
-Example:
+### **Skitii Health — BLE Patient Monitoring Platform**
 
-screenshots/
-├── login.png
-├── dashboard.png
-├── patients.png
-├── ble-session.png
-├── session-history.png
-└── session-details.png
+Built to demonstrate practical full-stack development with:
 
-👨‍💻 Project
+**Next.js • React • TypeScript • NestJS • MongoDB • JWT • Web Bluetooth API**
 
-Skitii Health — BLE Patient Monitoring Platform
-
-Developed as part of the Skitii Full Stack Developer Internship hiring task.
-
-The project demonstrates full-stack development, REST API integration, JWT authentication, MongoDB persistence, browser-based BLE communication, real-time physiological monitoring, and session management.
+⭐ If you find this project useful, consider giving the repository a star.
