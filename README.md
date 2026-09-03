@@ -785,7 +785,7 @@ screenshots/
 
 They are embedded above in the [Screenshots](#-screenshots) section near the top of this document.
 
-Add a short demo video link here if available.
+
 
 ---
 
