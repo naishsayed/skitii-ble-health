@@ -33,7 +33,25 @@ The project was built around the requirements in the Skitii hiring task:
 | Backend APIs | NestJS REST APIs |
 | Responsive UI | Next.js responsive interface |
 
-The hiring task makes real BLE data mandatory and specifically requires scanning, device selection, connection, characteristic subscription, packet parsing, live UI updates, and disconnect handling. fileciteturn31file0L6-L14
+The hiring task makes real BLE data mandatory and specifically requires scanning, device selection, connection, characteristic subscription, packet parsing, live UI updates, and disconnect handling.
+
+---
+
+## 📸 Screenshots
+
+| Login | Dashboard | Patients |
+|---|---|---|
+| ![Login](screenshots/Login.png) | ![Dashboard](screenshots/Dashboard_1.png) | ![Patients](screenshots/patients.png) |
+
+| Dashboard (Alt View) | New Session — BLE Connect | New Session — Live Monitoring |
+|---|---|---|
+| ![Dashboard Alt](screenshots/Dashboard_2.png) | ![BLE Connection](screenshots/session1.png) | ![Live Session](screenshots/session2.png) |
+
+| Session History | Session Details | Session Details (Expanded) |
+|---|---|---|
+| ![Session History](screenshots/session_history.png) | ![Session Details](screenshots/session_details.png) | ![Session Details Expanded](screenshots/session_details2.png) |
+
+> All screenshots live in the `screenshots/` folder at the project root (sibling to this `README.md`). See the [Screenshots / Demo](#-screenshots--demo) section further down for the folder layout and file list.
 
 ---
 
@@ -128,7 +146,7 @@ For this device, the browser can connect successfully when the watch is not alre
 | API | REST |
 | Runtime | Node.js |
 
-The hiring task specifies **Web Bluetooth API for Next.js** and requires real BLE values rather than generated/mock heart-rate readings. fileciteturn31file0L24-L32
+The hiring task specifies **Web Bluetooth API for Next.js** and requires real BLE values rather than generated/mock heart-rate readings.
 
 ---
 
@@ -180,7 +198,7 @@ NestJS REST API
 MongoDB
 ```
 
-This follows the data flow described in the hiring task: BLE device → service/characteristic → parser → session state/data layer → live vitals UI → session storage/API. fileciteturn31file0L33-L44
+This follows the data flow described in the hiring task: BLE device → service/characteristic → parser → session state/data layer → live vitals UI → session storage/API.
 
 ---
 
@@ -265,7 +283,7 @@ If the BLE device disconnects during monitoring:
 3. The application does not silently discard the readings already received.
 4. The session can be ended and saved with the data collected before the disconnect.
 
-The hiring task explicitly requires disconnect handling and preservation of previously received session data. fileciteturn31file0L46-L53
+The hiring task explicitly requires disconnect handling and preservation of previously received session data.
 
 ---
 
@@ -430,7 +448,7 @@ Protected endpoints require:
 Authorization: Bearer <JWT>
 ```
 
-These endpoints cover the Task 1 backend API requirements specified in the hiring task. fileciteturn31file0L59-L70
+These endpoints cover the Task 1 backend API requirements specified in the hiring task.
 
 ---
 
@@ -471,6 +489,17 @@ skitii-ble-health/
 │   │   └── main.ts
 │   ├── package.json
 │   └── .env
+│
+├── screenshots/
+│   ├── Login.png
+│   ├── Dashboard_1.png
+│   ├── Dashboard_2.png
+│   ├── patients.png
+│   ├── session1.png
+│   ├── session2.png
+│   ├── session_history.png
+│   ├── session_details.png
+│   └── session_details2.png
 │
 ├── README.md
 ├── vercel.json
@@ -542,7 +571,7 @@ For MongoDB Atlas, replace `MONGODB_URI` with the Atlas connection string.
 
 > Never commit real secrets. The repository excludes environment files through `.gitignore`.
 
-The hiring task also requires an `.env.example` containing no real secrets. fileciteturn31file0L152-L161
+The hiring task also requires an `.env.example` containing no real secrets.
 
 ---
 
@@ -665,7 +694,7 @@ The following Task 1 workflows have been manually tested:
 
 ## 🏁 BLE Acceptance Checklist
 
-The hiring task provides an explicit BLE acceptance checklist. fileciteturn31file0L162-L176
+The hiring task provides an explicit BLE acceptance checklist.
 
 | Acceptance Item | Status |
 |---|---|
@@ -707,7 +736,7 @@ If the BLE device disconnects:
 
 A durable offline queue, background synchronization, idempotency keys, and app-restart recovery are **not implemented in the current Task 1 version**.
 
-Those capabilities are part of the more advanced **Task 2 — Offline-First BLE Therapy Session App**, which requires local persistence, sync states, duplicate protection, and recovery behavior. fileciteturn31file0L86-L124
+Those capabilities are part of the more advanced **Task 2 — Offline-First BLE Therapy Session App**, which requires local persistence, sync states, duplicate protection, and recovery behavior.
 
 ---
 
@@ -737,20 +766,24 @@ BLE functionality depends on browser support for Web Bluetooth. Android Chrome i
 
 ## 📸 Screenshots / Demo
 
-The hiring task requests screenshots or a short demo video as part of the candidate deliverables. fileciteturn31file0L152-L161
+The hiring task requests screenshots or a short demo video as part of the candidate deliverables.
 
-Recommended screenshots:
+Screenshots are stored at the project root, in a `screenshots/` folder next to this `README.md`:
 
 ```text
 screenshots/
-├── login.png
-├── dashboard.png
+├── Login.png
+├── Dashboard_1.png
+├── Dashboard_2.png
 ├── patients.png
-├── ble-connection.png
-├── live-session.png
-├── session-history.png
-└── session-details.png
+├── session1.png
+├── session2.png
+├── session_history.png
+├── session_details.png
+└── session_details2.png
 ```
+
+They are embedded above in the [Screenshots](#-screenshots) section near the top of this document.
 
 Add a short demo video link here if available.
 
@@ -809,8 +842,6 @@ The hiring task evaluates Task 1 using:
 | API / Authentication | 10% |
 | Disconnect/error handling | 10% |
 | Code quality | 5% |
-
-fileciteturn31file0L74-L83
 
 This project focuses on the highest-value Task 1 areas: real BLE connectivity, correct heart-rate parsing, live monitoring, backend integration, MongoDB persistence, authentication, and connection failure handling.
 
