@@ -6,12 +6,13 @@ async function bootstrap() {
 
   app.enableCors({
     origin: [
-      "http://localhost:3000",
-      "http://192.168.1.34:3000",
+      'http://localhost:3000',
+      'http://192.168.1.34:3000',
+      'https://skitii-ble-health.vercel.app',
     ],
-
   });
 
   await app.listen(process.env.PORT ?? 3001);
 }
+
 bootstrap();
